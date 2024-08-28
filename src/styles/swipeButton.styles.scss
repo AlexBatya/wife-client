@@ -1,0 +1,185 @@
+.guest-list-item {
+	font-family: CormorantInfant-Bold;
+  display: flex;
+  justify-content: center;
+	gap: 100px;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.remove-button {
+	font-family: CormorantInfant-Bold;
+  color: #e74c3c;
+	background: none;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.remove-button:hover {
+	font-family: CormorantInfant-Bold;
+  background-color: #c0392b;
+}
+
+.swipeButton {
+	font-family: CormorantInfant-Bold;
+	display: flex;
+	align-items: center;
+	width: 300px;  // Занимает всю доступную ширину
+	height: 40px;
+	max-width: 300px;  // Ограничение по максимальной ширине
+	border-radius: 50px;
+	padding: 5px;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+}
+
+.go {
+	z-index: 1;
+	font-family: CormorantInfant-Bold;
+	margin: auto auto;  // Центрирование текста
+	color: rgba(0, 0, 0, 0.1);  // Исправлен цвет (была ошибка rbga)
+	opacity: 0.5;
+	user-select: none;  // Отключение выделения текста
+}
+
+.swipeButton__ball {
+	z-index: 2;
+	width: 50px;  // Фиксированная ширина шарика
+	height: 50px;  // Фиксированная высота шарика
+	border-radius: 50%;  // Делает шарик кругом
+	background-color: #ffffff;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	position: absolute;
+	transition: left 0.1s ease-in-out;  // Плавное перемещение шарика
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+// Стили для модального окна
+.custom-overlay {
+	font-family: CormorantInfant-Bold;
+  background-color: rgba(0, 0, 0, 0.5); // Полупрозрачный фон для затемнения
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out; // Плавная анимация затемнения
+}
+
+// Основное модальное окно
+.custom-modal {
+  background-color: #fff; // Белый фон
+	font-family: CormorantInfant-Bold;
+  border-radius: 10px; // Закругленные углы
+  padding: 20px; // Внутренние отступы
+  max-width: 500px; // Максимальная ширина
+  width: 90%; // Занимает 90% ширины экрана
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); // Тень для глубины
+  position: relative;
+  z-index: 1100;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; // Анимация открытия и закрытия
+  opacity: 0;
+  transform: translateY(-50px); // Начальная позиция (для анимации)
+}
+
+// Анимации для открытия и закрытия
+.ReactModal__Overlay--after-open .custom-overlay {
+	font-family: CormorantInfant-Bold;
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close .custom-overlay {
+	font-family: CormorantInfant-Bold;
+  opacity: 0;
+}
+
+.ReactModal__Content--after-open.custom-modal {
+	font-family: CormorantInfant-Bold;
+  opacity: 1;
+  transform: translateY(0); // Возвращаем в исходное положение
+}
+
+.ReactModal__Content--before-close.custom-modal {
+	font-family: CormorantInfant-Bold;
+  opacity: 0;
+  transform: translateY(-50px); // Уходящая позиция при закрытии
+}
+
+// Контент модального окна
+.modal-content {
+	font-family: CormorantInfant-Bold;
+  display: flex;
+  align-items: center;
+	justify-content: center;
+}
+
+// Заголовок модального окна
+.modal-content h2 {
+	font-family: CormorantInfant-Bold;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+// Список гостей
+.modal-content ul {
+	font-family: CormorantInfant-Bold;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto; // Прокрутка при необходимости
+}
+
+.modal-content li {
+	font-family: CormorantInfant-Bold;
+  padding: 10px 0;
+  width: 100%;
+  text-align: center;
+}
+
+.btms{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+// Кнопки в модальном окне
+.btm {
+	font-family: CormorantInfant-Bold;
+  background-color: #f5b3bc; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 10px;
+}
+
+.btm:hover {
+  background-color: #6d6875; 
+	opacity: 0.9;
+}
+
+// Кнопка отмены
+.btm.cancel {
+  background-color: #f44336; // Красная кнопка
+}
+
+.btm.cancel:hover {
+  background-color: #d32f2f; // Более темный красный при наведении
+}

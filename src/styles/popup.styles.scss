@@ -1,0 +1,73 @@
+// Стили для модального окна
+.custom-overlay {
+  background-color: rgba(0, 0, 0, 0.5); // Полупрозрачный фон для затемнения
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out; // Плавная анимация затемнения
+}
+
+// Основное модальное окно
+.custom-modal {
+  background-color: #fff; // Белый фон
+  border-radius: 10px; // Закругленные углы
+  padding: 20px; // Внутренние отступы
+  max-width: 500px; // Максимальная ширина
+  width: 90%; // Занимает 90% ширины экрана
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); // Тень для глубины
+  position: relative;
+  z-index: 1100;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; // Анимация открытия и закрытия
+  opacity: 0;
+  transform: translateY(-50px); // Начальная позиция (для анимации)
+}
+
+// Анимации для открытия и закрытия
+.ReactModal__Overlay--after-open .custom-overlay {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close .custom-overlay {
+  opacity: 0;
+}
+
+.ReactModal__Content--after-open.custom-modal {
+  opacity: 1;
+  transform: translateY(0); // Возвращаем в исходное положение
+}
+
+.ReactModal__Content--before-close.custom-modal {
+  opacity: 0;
+  transform: translateY(-50px); // Уходящая позиция при закрытии
+}
+
+// Контент модального окна
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// Кнопка закрытия
+.close-button {
+  background-color: #ff4b5c; // Красная кнопка
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.close-button:hover {
+  background-color: #ff1c2d; // Более темный красный при наведении
+}
+
