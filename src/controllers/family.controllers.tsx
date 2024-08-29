@@ -8,18 +8,18 @@ export const useFamilies = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchFamilies = async () => {
-      try {
-        const data = await FamilyService.getAllFamilies();
-        setFamilies(data);
-      } catch (err) {
-        setError('Ошибка при загрузке семей');
-      } finally {
-        setLoading(false);
-      }
-    };
+		const fetchFamilies = async () => {
+			try {
+				const data = await FamilyService.getAllFamilies();
+				setFamilies(data);
+			} catch (err) {
+				setError('Ошибка при загрузке семей');
+			} finally {
+				setLoading(false);
+			}
+		};
 
-    fetchFamilies();
+		fetchFamilies();
   }, []);
 
   return { families, loading, error };
@@ -30,29 +30,29 @@ export const useFamilyActions = () => {
   const [error, setError] = useState<string | null>(null);
 
   const addFamily = async (familyData: Family) => {
-    try {
-      await FamilyService.addFamily(familyData);
-    } catch (err) {
-      setError('Ошибка при добавлении семьи');
-    }
+		try {
+			await FamilyService.addFamily(familyData);
+		} catch (err) {
+			setError('Ошибка при добавлении семьи');
+		}
   };
 
   // Поддержка удаления как по ID, так и по имени
   const deleteFamily = async (identifier: number | string) => {
-    try {
-      await FamilyService.deleteFamily(identifier);
-    } catch (err) {
-      setError('Ошибка при удалении семьи');
-    }
+		try {
+			await FamilyService.deleteFamily(identifier);
+		} catch (err) {
+			setError('Ошибка при удалении семьи');
+		}
   };
 
   // Поддержка обновления как по ID, так и по имени
   const updateFamily = async (identifier: number | string, updatedData: Family) => {
-    try {
-      await FamilyService.updateFamily(identifier, updatedData);
-    } catch (err) {
-      setError('Ошибка при обновлении семьи');
-    }
+		try {
+			await FamilyService.updateFamily(identifier, updatedData);
+		} catch (err) {
+			setError('Ошибка при обновлении семьи');
+		}
   };
 
   return { addFamily, deleteFamily, updateFamily, error };
@@ -65,18 +65,18 @@ export const useFamilyById = (id: number) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchFamily = async () => {
-      try {
-        const data = await FamilyService.getFamilyById(id);
-        setFamily(data);
-      } catch (err) {
-        setError('Ошибка при загрузке семьи');
-      } finally {
-        setLoading(false);
-      }
-    };
+		const fetchFamily = async () => {
+			try {
+				const data = await FamilyService.getFamilyById(id);
+				setFamily(data);
+			} catch (err) {
+				setError('Ошибка при загрузке семьи');
+			} finally {
+				setLoading(false);
+			}
+		};
 
-    fetchFamily();
+		fetchFamily();
   }, [id]);
 
   return { family, loading, error };

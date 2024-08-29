@@ -14,51 +14,51 @@ export class FamilyService {
   private static token: string = config.server.token; // Ваш токен
 
   private static getHeaders() {
-    return {
-      headers: {
-        Authorization: `${this.token}`
-      }
-    };
+		return {
+			headers: {
+				Authorization: `${this.token}`
+			}
+		};
   }
 
   public static async getAllFamilies(): Promise<Family[]> {
-    const response = await axios.get(`${this.baseUrl}/`, this.getHeaders());
-    return response.data;
+		const response = await axios.get(`${this.baseUrl}/`, this.getHeaders());
+		return response.data;
   }
 
   public static async getFamilyById(id: number): Promise<Family | null> {
-    const response = await axios.get(`${this.baseUrl}/id/${id}`, this.getHeaders());
-    return response.data;
+		const response = await axios.get(`${this.baseUrl}/id/${id}`, this.getHeaders());
+		return response.data;
   }
 
   public static async getFamilyByName(family_name: string): Promise<Family | null> {
-    const response = await axios.get(`${this.baseUrl}/name/${family_name}`, this.getHeaders());
-    return response.data;
+		const response = await axios.get(`${this.baseUrl}/name/${family_name}`, this.getHeaders());
+		return response.data;
   }
 
   public static async addFamily(familyData: Family): Promise<Family> {
-    const response = await axios.post(`${this.baseUrl}/`, familyData, this.getHeaders());
-    return response.data;
+		const response = await axios.post(`${this.baseUrl}/`, familyData, this.getHeaders());
+		return response.data;
   }
 
   public static async deleteFamily(identifier: number | string): Promise<void> {
-    let url = `${this.baseUrl}/`;
-    if (typeof identifier === 'number') {
-      url += `${identifier}`;
-    } else {
-      url += `name/${identifier}`;
-    }
-    await axios.delete(url, this.getHeaders());
+		let url = `${this.baseUrl}/`;
+		if (typeof identifier === 'number') {
+			url += `${identifier}`;
+		} else {
+			url += `name/${identifier}`;
+		}
+		await axios.delete(url, this.getHeaders());
   }
 
   public static async updateFamily(identifier: number | string, updatedData: Family): Promise<void> {
-    let url = `${this.baseUrl}/`;
-    if (typeof identifier === 'number') {
-      url += `${identifier}`;
-    } else {
-      url += `name/${identifier}`;
-    }
-    await axios.put(url, updatedData, this.getHeaders());
+		let url = `${this.baseUrl}/`;
+		if (typeof identifier === 'number') {
+			url += `${identifier}`;
+		} else {
+			url += `name/${identifier}`;
+		}
+		await axios.put(url, updatedData, this.getHeaders());
   }
 }
 

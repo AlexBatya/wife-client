@@ -3,6 +3,7 @@ import PopupCustom from './Popup.components';
 import "../styles/swipeButton.styles.scss";
 import "../styles/font.styles.scss";
 import { Guest } from '../services/guests.services';
+import {useFamilyActions} from '../controllers/family.controllers';
 
 interface SwipeButtonProps {
   guests: Guest[];
