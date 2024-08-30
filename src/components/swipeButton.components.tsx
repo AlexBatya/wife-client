@@ -4,15 +4,17 @@ import "../styles/swipeButton.styles.scss";
 import "../styles/font.styles.scss";
 import { Guest } from '../services/guests.services';
 import {useFamilyActions} from '../controllers/family.controllers';
+import {useGuestActions} from '../controllers/guests.controllers';
 
 interface SwipeButtonProps {
   guests: Guest[];
   onConfirm: (guests: Guest[]) => void;
   onCancel: () => void;
   shouldContinueRight: boolean;
+	id: number| undefined;
 }
 
-const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, shouldContinueRight }) => {
+const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, shouldContinueRight, id }) => {
   const [position, setPosition] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false); // Новое состояние для подтверждения при перемещении влево
@@ -21,6 +23,8 @@ const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, 
   const [errorMessage, setErrorMessage] = useState(''); 
   const containerRef = useRef<HTMLDivElement>(null);
   const ballRef = useRef<HTMLDivElement>(null);
+
+	const {deleteGuestByIdGuest} = useGuestActions();
 
   useEffect(() => {
 		setCurrentGuests(guests); 
@@ -95,6 +99,7 @@ const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, 
   const handleCancel = () => {
 		setIsPopupOpen(false);
 		setIsConfirmationPopupOpen(false); // Закрыть попап при отмене
+
 		onCancel();
 		setPosition(0); 
 		setColorChanged(false);
@@ -113,6 +118,7 @@ const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, 
 		// Удаляем всех гостей и обнуляем счетчик
 		setCurrentGuests([]);
 		onCancel(); // Используем существующую логику отмены
+		deleteGuestByIdGuest(Number(id));
 		setIsConfirmationPopupOpen(false); // Закрыть подтверждение
 		setPosition(0); 
 		setColorChanged(false);

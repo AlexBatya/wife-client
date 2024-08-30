@@ -119,7 +119,8 @@ function App() {
 							guests={guests} 
 							onConfirm={handleConfirm} 
 							onCancel={handleCancel} 
-							shouldContinueRight={shouldContinueRight} 
+							shouldContinueRight={shouldContinueRight}
+							id = {Number(id)}
 						/>
 						<p style={{ userSelect: "none", padding: "20px 0" }}>Мы рады видеть вас на нашей свадьбе</p>
 						<div style={backStyle}></div>

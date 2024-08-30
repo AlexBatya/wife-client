@@ -39,12 +39,20 @@ export class GuestService {
 		return response.data;
   }
 
-  public static async deleteGuest(id: number): Promise<void> {
-		await axios.delete(`${this.baseUrl}/${id}`, this.getHeaders());
+  public static async deleteGuest(full_name: string): Promise<void> {
+		await axios.delete(`${this.baseUrl}/${full_name}`, this.getHeaders());
   }
 
-  public static async updateGuest(id: number, updatedData: Guest): Promise<void> {
-		await axios.put(`${this.baseUrl}/${id}`, updatedData, this.getHeaders());
+  public static async deleteGuestById(id: number): Promise<void> {
+		await axios.delete(`${this.baseUrl}/id/${id}`, this.getHeaders());
+  }
+
+  public static async deleteGuestByIdGuest(id_guest: number): Promise<void> {
+		await axios.delete(`${this.baseUrl}/id_guest/${id_guest}`, this.getHeaders());
+  }
+
+  public static async updateGuest(full_name: string, updatedData: Guest): Promise<void> {
+			await axios.put(`${this.baseUrl}/${full_name}`, updatedData, this.getHeaders());
   }
 }
 
