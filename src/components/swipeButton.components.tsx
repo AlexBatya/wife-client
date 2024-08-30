@@ -24,7 +24,8 @@ const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, 
   const containerRef = useRef<HTMLDivElement>(null);
   const ballRef = useRef<HTMLDivElement>(null);
 
-	const {deleteGuestByIdGuest} = useGuestActions();
+	const {deleteGuestByIdGuest}: any = useGuestActions();
+	const {updateFamily}: any = useFamilyActions();
 
   useEffect(() => {
 		setCurrentGuests(guests); 
@@ -90,6 +91,7 @@ const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, 
 		setIsPopupOpen(false);
 		onConfirm(currentGuests); 
 		if (containerRef.current) {
+			updateFamily(id, {presence: true});
 			const containerWidth = containerRef.current.offsetWidth;
 			const ballWidth = ballRef.current?.offsetWidth || 0;
 			setPosition(containerWidth - ballWidth); 
@@ -99,7 +101,8 @@ const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, 
   const handleCancel = () => {
 		setIsPopupOpen(false);
 		setIsConfirmationPopupOpen(false); // Закрыть попап при отмене
-
+		
+		updateFamily(id, {presence: false});
 		onCancel();
 		setPosition(0); 
 		setColorChanged(false);
@@ -117,6 +120,7 @@ const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, 
   const handleConfirmCancelation = () => {
 		// Удаляем всех гостей и обнуляем счетчик
 		setCurrentGuests([]);
+		updateFamily(id, {presence: false});
 		onCancel(); // Используем существующую логику отмены
 		deleteGuestByIdGuest(Number(id));
 		setIsConfirmationPopupOpen(false); // Закрыть подтверждение
