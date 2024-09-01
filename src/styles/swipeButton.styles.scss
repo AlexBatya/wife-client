@@ -15,11 +15,12 @@
   padding: 4px 8px;
   cursor: pointer;
   font-size: 12px;
+	transition: 0.5s;
 }
 
 .remove-button:hover {
 	font-family: CormorantInfant-Bold;
-  background-color: #c0392b;
+	color: black; 
 }
 
 .swipeButton {

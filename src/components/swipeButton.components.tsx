@@ -134,71 +134,58 @@ const SwipeButton: React.FC<SwipeButtonProps> = ({ guests, onConfirm, onCancel, 
   };
 
   return (
-    <div>
-      <div
-        className="swipeButton"
-        ref={containerRef}
-        style={{
-          backgroundColor: colorChanged ? '#f5b3bc' : 'rgba(220, 220, 220, 0.8)',
-        }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleMouseDown}
-      >
-        {position < 100 ? <p className="go">Подтвердите!</p> : <p className="go">Отлично!!</p>}
-        <div
-          className="swipeButton__ball icon-arrow-right2"
-          ref={ballRef}
-          style={{
-            left: `${position}px`,
-          }}
-        ></div>
-      </div>
+		<div>
+			<div
+				className="swipeButton"
+				ref={containerRef}
+				style={{
+					backgroundColor: colorChanged ? '#f5b3bc' : 'rgba(220, 220, 220, 0.8)',
+				}}
+				onMouseDown={handleMouseDown}
+				onTouchStart={handleMouseDown}
+			>
+				{position < 100 ? <p className="go">Подтвердите!</p> : <p className="go">Отлично!!</p>}
+				<div
+					className="swipeButton__ball icon-arrow-right2"
+					ref={ballRef}
+					style={{
+						left: `${position}px`,
+					}}
+				></div>
+			</div>
 
-      <PopupCustom isOpen={isPopupOpen} onClose={handleCancel}>
-        <h2>Подтверждение гостей</h2>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <ul>
-          {currentGuests.length > 0 ? (
-            currentGuests
-              .filter(guest => guest.full_name.trim() !== '') // Фильтрация пустых элементов при отображении
-              .map((guest, index) => (
-                <li key={index} className="guest-list-item">
-                  {guest.full_name}
-                  <button onClick={() => handleRemoveGuest(index)} className="remove-button">Удалить</button>
-                </li>
-              ))
-          ) : (
-            <li>Нет гостей для отображения</li>
-          )}
-        </ul>
-        <div className="btms">
-          <button className="btm" onClick={handleConfirm}>Отправить</button>
-          <button className="btm" onClick={handleCancel}>Отмена</button>
-        </div>
-      </PopupCustom>
+			<PopupCustom isOpen={isPopupOpen} onClose={handleCancel}>
+				<h2>Подтверждение гостей</h2>
+				{errorMessage && <p className="error-message">{errorMessage}</p>}
+				<ul>
+					{currentGuests.length > 0 ? (
+						currentGuests
+							.filter(guest => guest.full_name.trim() !== '') // Фильтрация пустых элементов при отображении
+							.map((guest, index) => (
+								<li key={index} className="guest-list-item">
+									{guest.full_name}
+									<button onClick={() => handleRemoveGuest(index)} className="remove-button">Удалить</button>
+								</li>
+							))
+					) : (
+						<li>Нет гостей для отображения</li>
+					)}
+				</ul>
+				<div className="btms">
+					<button className="btm" onClick={handleConfirm}>Отправить</button>
+					<button className="btm" onClick={handleCancel}>Отмена</button>
+				</div>
+			</PopupCustom>
 
-      <PopupCustom isOpen={isConfirmationPopupOpen} onClose={handleCancel}>
-        <h2>Вы действительно хотите отменить подтверждение?</h2>
-        <p>Все гости будут удалены.</p>
-        <ul>
-          {currentGuests.length > 0 ? (
-            currentGuests
-              .filter(guest => guest.full_name.trim() !== '') // Фильтрация пустых элементов при отображении
-              .map((guest, index) => (
-                <li key={index} className="guest-list-item">
-                  {guest.full_name}
-                </li>
-              ))
-          ) : (
-            <li>Нет гостей для отображения</li>
-          )}
-        </ul>
-        <div className="btms">
-          <button className="btm" onClick={handleConfirmCancelation}>Подтвердить</button>
-          <button className="btm" onClick={handleCancel}>Отмена</button>
-        </div>
-      </PopupCustom>
-    </div>
+			<PopupCustom isOpen={isConfirmationPopupOpen} onClose={handleCancel}>
+				<h2>Вы действительно хотите отменить подтверждение?</h2>
+				<p>Все гости будут удалены.</p>
+				<div className="btms">
+					<button className="btm" onClick={handleConfirmCancelation}>Подтвердить</button>
+					<button className="btm" onClick={handleCancel}>Отмена</button>
+				</div>
+			</PopupCustom>
+		</div>
   );
 };
 

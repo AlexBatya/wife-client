@@ -54,10 +54,11 @@ module.exports = {
   plugins: [
 		new HtmlWebpackPlugin({
 			template: './src/index.html',
+			favicon: "./src/assets/img/heart1.ico"
 		}),
   ],
   devServer: {
-		host: "192.168.1.76",
+		host: "192.168.1.46",
 		static: {
 			directory: path.join(__dirname, 'build'),
 		},
