@@ -58,7 +58,7 @@ module.exports = {
 		}),
   ],
   devServer: {
-		host: "alexnadi.ru",
+		host: "192.168.1.76",
 		static: {
 			directory: path.join(__dirname, 'build'),
 		},
