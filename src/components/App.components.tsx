@@ -22,19 +22,25 @@ function App() {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const handlePageLoad = () => {
       setIsLoading(false);
-    }, 5000); // Таймер на 5 секунд
+    };
 
-    // Если страница загружается быстрее, ждем таймер
-    window.addEventListener('load', () => {
-      if (document.readyState === 'complete') {
-        clearTimeout(timer); // Отменяем таймер, если страница загрузилась быстрее
-        setIsLoading(false);
-      }
-    });
+    if (document.readyState === 'complete') {
+      handlePageLoad();
+    } else {
+      window.addEventListener('load', handlePageLoad);
+      return () => window.removeEventListener('load', handlePageLoad);
+    }
+  }, []);
 
-    return () => clearTimeout(timer); // Очищаем таймер при размонтировании компонента
+  // Добавляем еще один useEffect для установки максимального времени ожидания
+  useEffect(() => {
+    const loadCheck = setTimeout(() => {
+      setIsLoading(false); // Если через 5 секунд страница не загрузилась, скрываем Loader
+    }, 5000); // Установите максимальное время ожидания
+
+    return () => clearTimeout(loadCheck); // Очищаем таймер, если компонент размонтируется раньше
   }, []);
 
   const handleGuestsChange = (newGuests: GuestType[]) => {
