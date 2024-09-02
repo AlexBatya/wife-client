@@ -51,9 +51,6 @@ const Guest: React.FC<GuestProps> = ({ id }) => {
 					Мы рады сообщить Вам, что 21.09.2024 состоится самое главное торжество в нашей жизни - день нашей свадьбы!
 					Приглашаем Вас разделить с нами радость этого незабываемого дня.
 				</p>
-				<p className="wow animate__animated animate__fadeInUp">
-					{family.text ? family.text : "Приглашаем Вас разделить с нами радость этого незабываемого дня."}
-				</p>
 				<h4 className="wow animate__animated animate__fadeInUp">Ждём вас!</h4>
 				<p className="wow animate__animated animate__fadeInUp">
 					Ленинградская улица, 71, Уссурийск, Приморский край					
