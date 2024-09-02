@@ -22,25 +22,17 @@ function App() {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    const handlePageLoad = () => {
-      setIsLoading(false);
-    };
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Скрываем экран загрузки через 5 секунд
+    }, 5000);
 
-    if (document.readyState === 'complete') {
-      handlePageLoad();
-    } else {
-      window.addEventListener('load', handlePageLoad);
-      return () => window.removeEventListener('load', handlePageLoad);
-    }
-  }, []);
+    // Используем API для проверки загрузки шрифтов и стилей
+    document.fonts.ready.then(() => {
+      clearTimeout(timer); // Сбрасываем таймер, если шрифты загрузились раньше
+      setIsLoading(false); // Скрываем экран загрузки, если шрифты загрузились
+    });
 
-  // Добавляем еще один useEffect для установки максимального времени ожидания
-  useEffect(() => {
-    const loadCheck = setTimeout(() => {
-      setIsLoading(false); // Если через 5 секунд страница не загрузилась, скрываем Loader
-    }, 5000); // Установите максимальное время ожидания
-
-    return () => clearTimeout(loadCheck); // Очищаем таймер, если компонент размонтируется раньше
+    return () => clearTimeout(timer); // Очищаем таймер при размонтировании компонента
   }, []);
 
   const handleGuestsChange = (newGuests: GuestType[]) => {
