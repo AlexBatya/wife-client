@@ -14,7 +14,6 @@ import back from '../assets/img/3.png';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [isTimerFinished, setIsTimerFinished] = useState(false); // Добавлено состояние для таймера
   const [guests, setGuests] = useState<GuestType[]>([]);
   const [shouldContinueRight, setShouldContinueRight] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
@@ -23,27 +22,25 @@ function App() {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    // Таймер на 5 секунд
-    const timer = setTimeout(() => {
-      setIsTimerFinished(true);
-    }, 5000);
-
-    // Обработчик завершения загрузки страницы
     const handlePageLoad = () => {
       setIsLoading(false);
     };
 
-    // Если страница уже загружена, снимаем загрузку
     if (document.readyState === 'complete') {
       handlePageLoad();
     } else {
       window.addEventListener('load', handlePageLoad);
+      return () => window.removeEventListener('load', handlePageLoad);
     }
+  }, []);
 
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('load', handlePageLoad);
-    };
+  // Добавляем еще один useEffect для установки максимального времени ожидания
+  useEffect(() => {
+    const loadCheck = setTimeout(() => {
+      setIsLoading(false); // Если через 5 секунд страница не загрузилась, скрываем Loader
+    }, 5000); // Установите максимальное время ожидания
+
+    return () => clearTimeout(loadCheck); // Очищаем таймер, если компонент размонтируется раньше
   }, []);
 
   const handleGuestsChange = (newGuests: GuestType[]) => {
@@ -109,12 +106,11 @@ function App() {
     backgroundPosition: "center",
   };
 
-  // Основное условие рендеринга контента
-  const shouldRenderContent = !isLoading && isTimerFinished;
-
   return (
     <>
-      {shouldRenderContent ? (
+      {isLoading ? (
+        <Loader />
+      ) : (
         <div style={style}>
           <Heart />
           <Time />
@@ -136,8 +132,6 @@ function App() {
             <div style={backStyle}></div>
           </div>
         </div>
-      ) : (
-        <Loader />
       )}
       <SuccessPopup isOpen={isSuccessPopupOpen} onClose={handleCloseSuccessPopup} />
     </>
