@@ -23,9 +23,7 @@ function App() {
 
   useEffect(() => {
     const handlePageLoad = () => {
-      requestAnimationFrame(() => {
-        setIsLoading(false);
-      });
+      setIsLoading(false);
     };
 
     if (document.readyState === 'complete') {
@@ -34,6 +32,15 @@ function App() {
       window.addEventListener('load', handlePageLoad);
       return () => window.removeEventListener('load', handlePageLoad);
     }
+  }, []);
+
+  // Добавляем еще один useEffect для установки максимального времени ожидания
+  useEffect(() => {
+    const loadCheck = setTimeout(() => {
+      setIsLoading(false); // Если через 5 секунд страница не загрузилась, скрываем Loader
+    }, 5000); // Установите максимальное время ожидания
+
+    return () => clearTimeout(loadCheck); // Очищаем таймер, если компонент размонтируется раньше
   }, []);
 
   const handleGuestsChange = (newGuests: GuestType[]) => {
