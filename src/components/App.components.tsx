@@ -17,32 +17,28 @@ function App() {
   const [guests, setGuests] = useState<GuestType[]>([]);
   const [shouldContinueRight, setShouldContinueRight] = useState(false);
   const [isSuccessPopupOpen, setIsSuccessPopupOpen] = useState(false);
-  const [resetGuestCountSignal, setResetGuestCountSignal] = useState(false); // Состояние для сигнала сброса
+  const [resetGuestCountSignal, setResetGuestCountSignal] = useState(false);
 
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    // Проверяем, если страница уже загружена
-    if (document.readyState === "complete") {
-      setIsLoading(false);
-    } else {
-      // Добавляем слушатель на событие загрузки страницы
-      const handlePageLoad = () => {
+    const handlePageLoad = () => {
+      requestAnimationFrame(() => {
         setIsLoading(false);
-      };
+      });
+    };
 
+    if (document.readyState === 'complete') {
+      handlePageLoad();
+    } else {
       window.addEventListener('load', handlePageLoad);
-
-      // Очищаем слушатель при размонтировании компонента
-      return () => {
-        window.removeEventListener('load', handlePageLoad);
-      };
+      return () => window.removeEventListener('load', handlePageLoad);
     }
   }, []);
 
   const handleGuestsChange = (newGuests: GuestType[]) => {
     setGuests(newGuests);
-    setResetGuestCountSignal(false); // Сбрасываем сигнал сброса, когда гости изменяются
+    setResetGuestCountSignal(false);
   };
 
   const handleConfirm = async (confirmedGuests: GuestType[]) => {
@@ -61,7 +57,7 @@ function App() {
   const handleCancel = () => {
     setGuests([]);
     setShouldContinueRight(false);
-    setResetGuestCountSignal(true); // Устанавливаем сигнал для сброса гостей
+    setResetGuestCountSignal(true);
   };
 
   const handleCloseSuccessPopup = () => {
@@ -82,7 +78,7 @@ function App() {
     width: "400px",
     height: "40px",
     backgroundColor: "rgba(0, 0, 0, 0.05)",
-    backgroundImage: "url(" + back + ")",
+    backgroundImage: `url(${back})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     borderRadius: "5px",
@@ -96,7 +92,7 @@ function App() {
     flexDirection: "column",
     alignItems: 'center',
     justifyContent: "center",
-    backgroundImage: "url(" + back + ")",
+    backgroundImage: `url(${back})`,
     backgroundRepeat: "no-repeat",
     backgroundColor: "rgba(0, 0, 0, 0.009)",
     backgroundSize: "cover",
@@ -116,7 +112,7 @@ function App() {
             <Guest id={Number(id)} />
             <NewGuests 
               onGuestsChange={handleGuestsChange}
-              resetGuestCountSignal={resetGuestCountSignal} // Передаем сигнал сброса
+              resetGuestCountSignal={resetGuestCountSignal} 
             />
             <SwipeButton 
               guests={guests} 
