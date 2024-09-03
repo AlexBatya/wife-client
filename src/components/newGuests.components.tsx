@@ -47,10 +47,7 @@ const NewGuests: React.FC<NewGuestsProps> = ({ onGuestsChange, resetGuestCountSi
   return (
 		<div className="guest-input-container">
 			<label htmlFor="guestCount" className="guest-input-label">
-				Введите количество членов семьи, включая себя 
-				<Tooltip text = "Укажите количество членов вашей семьи, включая себя, чтобы мы могли правильно составить список гостей">
-					<i className = "info icon-info"></i>
-				</Tooltip> :
+				Введите количество членов семьи, включая себя:
 
 			</label>
 			<input

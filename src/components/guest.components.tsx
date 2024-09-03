@@ -49,11 +49,10 @@ const Guest: React.FC<GuestProps> = ({ id }) => {
 				<h2 className="wow animate__animated animate__fadeInUp">{family.text ? family.text : "Уважаемый гость"}</h2>
 				<p className="wow animate__animated animate__fadeInUp">
 					Мы рады сообщить Вам, что 21.09.2024 состоится самое главное торжество в нашей жизни - день нашей свадьбы!
-					Приглашаем Вас разделить с нами радость этого незабываемого дня.
 				</p>
 				<h4 className="wow animate__animated animate__fadeInUp">Ждём вас!</h4>
 				<p className="wow animate__animated animate__fadeInUp">
-					Ленинградская улица, 71, Уссурийск, Приморский край					
+					Ленинградская улица, 71, кафе "Купидон" г.Уссурийск, Приморский край					
 				</p>
 				<h4 className="wow animate__animated animate__fadeInUp">Там, где царит взаимность, рождается счастье</h4>
 				<div className="our">
@@ -70,7 +69,7 @@ const Guest: React.FC<GuestProps> = ({ id }) => {
 				<p className="wow animate__animated animate__fadeInUp">
 					Пожалуйста подтвердите свое присутствие до 16.09.2024
 				</p>
-				<h4 className="end wow animate__animated animate__fadeInUp">ЖДЕМ ВАС НА НАШЕЙ СВАДЬБЕ!</h4>
+				<h4 className="end wow animate__animated animate__fadeInUp">С НЕТЕРПЕНИЕМ ОЖИДАЕМ ВАС НА НАШЕЙ СВАДЬБЕ</h4>
 			</div>
 		</div>
   );

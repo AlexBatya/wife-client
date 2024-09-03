@@ -76,7 +76,7 @@ function App() {
   const backStyle: React.CSSProperties = {
     width: "400px",
     height: "40px",
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backgroundColor: "rgba(245, 179, 188, 0.2)",
     backgroundImage: `url(${back})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -93,7 +93,7 @@ function App() {
     justifyContent: "center",
     backgroundImage: `url(${back})`,
     backgroundRepeat: "no-repeat",
-    backgroundColor: "rgba(0, 0, 0, 0.009)",
+    backgroundColor: "rgba(245, 179, 188, 0.009)",
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
@@ -120,7 +120,7 @@ function App() {
               shouldContinueRight={shouldContinueRight}
               id={Number(id)}
             />
-            <p style={{ userSelect: "none", padding: "20px 0" }}>Мы рады видеть вас на нашей свадьбе</p>
+            <p style={{ userSelect: "none", padding: "20px 0" }}></p>
             <div style={backStyle}></div>
           </div>
         </div>
