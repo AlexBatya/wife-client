@@ -9,7 +9,7 @@ export interface Guest {
 }
 
 export class GuestService {
-  private static baseUrl: string = `https://${config.server.host}/api/guests`; // Адрес вашего API
+  private static baseUrl: string = `http://${config.server.host}:${config.server.PORT}/api/guests`; // Адрес вашего API
   private static token: string = config.server.token; // Ваш токен
 
   private static getHeaders() {
