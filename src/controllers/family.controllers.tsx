@@ -1,28 +1,51 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback  } from 'react';
 import { FamilyService, Family } from '../services/family.services';
 
 // Хук для получения всех семей
+// export const useFamilies = () => {
+//   const [families, setFamilies] = useState<Family[]>([]);
+//   const [loading, setLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<string | null>(null);
+//
+//   useEffect(() => {
+// 		const fetchFamilies = async () => {
+// 			try {
+// 				const data = await FamilyService.getAllFamilies();
+// 				setFamilies(data);
+// 			} catch (err) {
+// 				setError('Ошибка при загрузке семей');
+// 			} finally {
+// 				setLoading(false);
+// 			}
+// 		};
+//
+// 		fetchFamilies();
+//   }, []);
+//
+//   return { families, loading, error };
+// };
+
 export const useFamilies = () => {
   const [families, setFamilies] = useState<Family[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-		const fetchFamilies = async () => {
-			try {
-				const data = await FamilyService.getAllFamilies();
-				setFamilies(data);
-			} catch (err) {
-				setError('Ошибка при загрузке семей');
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchFamilies();
+  const fetchFamilies = useCallback(async () => {
+		try {
+			const data = await FamilyService.getAllFamilies();
+			setFamilies(data);
+		} catch (err) {
+			setError('Ошибка при загрузке семей');
+		} finally {
+			setLoading(false);
+		}
   }, []);
 
-  return { families, loading, error };
+  useEffect(() => {
+		fetchFamilies();
+  }, [fetchFamilies]);
+
+  return { families, loading, error, refetchFamilies: fetchFamilies }; // Добавляем refetchFamilies
 };
 
 // Хук для работы с действиями над семьёй

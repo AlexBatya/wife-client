@@ -2,6 +2,7 @@
 
 /* Основной стиль для затемнения фона */
 .overlay {
+  box-sizing: border-box; /* Обеспечивает правильное вычисление ширины и высоты */
 	font-family: CormorantInfant-Bold;
   position: fixed;
   top: 0;
