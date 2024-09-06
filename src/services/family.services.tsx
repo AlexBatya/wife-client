@@ -10,7 +10,7 @@ export interface Family {
 }
 
 export class FamilyService {
-  private static baseUrl: string = `http://${config.server.host}:${config.server.PORT}/api/family`; // Адрес вашего API
+  private static baseUrl: string = `https://${config.server.host}/api/family`; // Адрес вашего API
   private static token: string = config.server.token; // Ваш токен
 
   private static getHeaders() {
