@@ -60,5 +60,9 @@ export class GuestService {
   public static async updateGuest(full_name: string, updatedData: Guest): Promise<void> {
     await axios.put(`${this.baseUrl}/${full_name}`, updatedData, this.getHeaders());
   }
+
+  public static async updateGuestById(id: number, updatedData: Guest): Promise<void> {
+    await axios.put(`${this.baseUrl}/id/${id}`, updatedData, this.getHeaders());
+  }
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../../styles/admin/auth.styles.scss';
-import {useAuth}  from '../../hooks/auth.hooks';
+import { useAuth } from '../../hooks/auth.hooks';
 
 interface AuthPopupProps {
   onAuthSuccess: () => void;
@@ -9,6 +9,8 @@ interface AuthPopupProps {
 const Auth: React.FC<AuthPopupProps> = ({ onAuthSuccess }) => {
   const {
 		login,
+		status,
+		setStatus,
 		setLogin,
 		password,
 		setPassword,
@@ -16,6 +18,12 @@ const Auth: React.FC<AuthPopupProps> = ({ onAuthSuccess }) => {
 		loading,
 		handleLogin,
   } = useAuth(onAuthSuccess);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			handleLogin();
+		}
+  };
 
   return (
 		<div className="overlay">
@@ -27,6 +35,7 @@ const Auth: React.FC<AuthPopupProps> = ({ onAuthSuccess }) => {
 					placeholder="Логин"
 					value={login}
 					onChange={(e) => setLogin(e.target.value)}
+					onKeyDown={handleKeyDown}
 				/>
 				<input
 					className="input-auth"
@@ -34,6 +43,7 @@ const Auth: React.FC<AuthPopupProps> = ({ onAuthSuccess }) => {
 					placeholder="Пароль"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
+					onKeyDown={handleKeyDown}
 				/>
 				{error && <p className="error">{error}</p>}
 				<button className="button-auth" onClick={handleLogin} disabled={loading}>
@@ -43,7 +53,6 @@ const Auth: React.FC<AuthPopupProps> = ({ onAuthSuccess }) => {
 		</div>
   );
 };
-
 
 export default Auth;
 

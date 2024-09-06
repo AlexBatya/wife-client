@@ -1,3 +1,4 @@
+// FamilyTable.components.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import '../../styles/admin/familyTable.styles.scss';
 import { useFamilies, useFamilyActions } from '../../controllers/family.controllers';
@@ -10,7 +11,11 @@ interface FirstTableRow {
   presence: any;
 }
 
-const FamilyTable: React.FC = () => {
+interface FamilyTableProps {
+  isAdmin: boolean;
+}
+
+const FamilyTable: React.FC<FamilyTableProps> = ({ isAdmin }) => {
   const { families, refetchFamilies } = useFamilies();
   const { updateFamily, addFamily, deleteFamily } = useFamilyActions();  // Добавляем deleteFamily
 
@@ -27,8 +32,10 @@ const FamilyTable: React.FC = () => {
   const tableRef = useRef<HTMLTableElement>(null);
 
   const handleEditClick = (row: FirstTableRow) => {
-    setEditRowId(row.id);
-    setEditData({ ...row });
+    if (isAdmin) {
+      setEditRowId(row.id);
+      setEditData({ ...row });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof FirstTableRow) => {
@@ -54,7 +61,7 @@ const FamilyTable: React.FC = () => {
   };
 
   const handleSaveClick = async () => {
-    if (editRowId !== null && editData) {
+    if (isAdmin && editRowId !== null && editData) {
       try {
         await updateFamily(editRowId, editData);
         await refetchFamilies();
@@ -65,26 +72,26 @@ const FamilyTable: React.FC = () => {
     }
   };
 
-  // Функция для добавления новой строки
   const handleAddClick = async () => {
-    const defaultData: Family = {
-      id: 0,  // ID будет автоматически назначен базой данных
-      family_name: 'Новая семья',
-      text: 'Текст приглашения',
-      presence: false // Или любое другое дефолтное значение
-    };
+    if (isAdmin) {
+      const defaultData: Family = {
+        id: 0,  // ID будет автоматически назначен базой данных
+        family_name: 'Новая семья',
+        text: 'Текст приглашения',
+        presence: false // Или любое другое дефолтное значение
+      };
 
-    try {
-      await addFamily(defaultData);
-      await refetchFamilies();  // Обновляем таблицу после добавления
-    } catch (error) {
-      console.error('Ошибка при добавлении семьи:', error);
+      try {
+        await addFamily(defaultData);
+        await refetchFamilies();  // Обновляем таблицу после добавления
+      } catch (error) {
+        console.error('Ошибка при добавлении семьи:', error);
+      }
     }
   };
 
-  // Функция для удаления строки
   const handleDeleteClick = async () => {
-    if (editRowId !== null) {
+    if (isAdmin && editRowId !== null) {
       try {
         await deleteFamily(editRowId);  // Удаляем семью
         await refetchFamilies();  // Обновляем таблицу после удаления
@@ -111,21 +118,17 @@ const FamilyTable: React.FC = () => {
             <th className="th_header">Фамилия</th>
             <th className="th_header">Текст приглашения</th>
             <th className="th_header">Присутствие</th>
-            {editRowId !== null && <th className="th_header">Действия</th>} {/* Добавляем заголовок "Действия" */}
+            {isAdmin && editRowId !== null && <th className="th_header">Действия</th>}
           </tr>
         </thead>
         <tbody>
           {data.map((row) => (
             <tr key={row.id}>
-              <td
-                className="th_body id"
-                data-label="id"
-                onClick={() => handleEditClick(row)}
-              >
-                {row.id} <i className="icon-cogs"></i>
+              <td className="th_body id" data-label="id" onClick={() => isAdmin && handleEditClick(row)}>
+                {row.id} {isAdmin && <i className="icon-cogs"></i>}
               </td>
               <td className="th_body" data-label="Фамилия">
-                {editRowId === row.id ? (
+                {editRowId === row.id && isAdmin ? (
                   <input
                     className="changeInput"
                     type="text"
@@ -137,7 +140,7 @@ const FamilyTable: React.FC = () => {
                 )}
               </td>
               <td className="th_body" data-label="Текст приглашения">
-                {editRowId === row.id ? (
+                {editRowId === row.id && isAdmin ? (
                   <input
                     className="changeInput"
                     type="text"
@@ -149,7 +152,7 @@ const FamilyTable: React.FC = () => {
                 )}
               </td>
               <td className="th_body" data-label="Присутствие">
-                {editRowId === row.id ? (
+                {editRowId === row.id && isAdmin ? (
                   <input
                     className="changeInput"
                     type="text"
@@ -160,13 +163,10 @@ const FamilyTable: React.FC = () => {
                   (!row.presence ? "-" : "+")
                 )}
               </td>
-              {editRowId === row.id && (
+              {isAdmin && editRowId === row.id && (
                 <td className="th_body actions" data-label="Действия">
-                  <button
-                    className="delete-button"
-                    onClick={handleDeleteClick}
-                  >
-                    Удалить <i className = "icon-bin2"></i>
+                  <button className="delete-button" onClick={handleDeleteClick}>
+                    Удалить <i className="icon-bin2"></i>
                   </button>
                 </td>
               )}
@@ -174,20 +174,16 @@ const FamilyTable: React.FC = () => {
           ))}
         </tbody>
       </table>
-      {editRowId !== null && (
-        <button
-          className="save-button"
-          onClick={handleSaveClick}
-        >
+      {isAdmin && editRowId !== null && (
+        <button className="save-button" onClick={handleSaveClick}>
           Сохранить
         </button>
       )}
-      <button
-        className="add-button"
-        onClick={handleAddClick}
-      >
-        Добавить
-      </button>
+      {isAdmin && (
+        <button className="add-button" onClick={handleAddClick}>
+          Добавить
+        </button>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { GuestService, Guest } from '../services/guests.services';
 
 export const useGuests = () => {
@@ -6,22 +6,22 @@ export const useGuests = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchGuests = async () => {
-      try {
-        const data = await GuestService.getAllGuests();
-        setGuests(data);
-      } catch (err) {
-        setError('Ошибка при загрузке гостей');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGuests();
+  const fetchGuests = useCallback(async () => {
+    try {
+      const data = await GuestService.getAllGuests();
+      setGuests(data);
+    } catch (err) {
+      setError('Ошибка при загрузке гостей');
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { guests, loading, error };
+  useEffect(() => {
+    fetchGuests();
+  }, [fetchGuests]);
+
+  return { guests, loading, error, refetchGuests: fetchGuests }; // Добавляем refetchGuests
 };
 
 export const useGuestActions = () => {
@@ -35,84 +35,22 @@ export const useGuestActions = () => {
     }
   };
 
-  const deleteGuest = async (full_name: string) => {
-    try {
-      await GuestService.deleteGuest(full_name);
-    } catch (err) {
-      setError('Ошибка при удалении гостя');
-    }
-  };
+  const deleteGuest = async (identifier: number | string) => {
+		try {
+			await GuestService.deleteGuestById(Number(identifier));  // Преобразование в строку
+		} catch (err) {
+			setError('Ошибка при удалении гостя');
+		}
+	};
 
-  const deleteGuestById = async (id: number) => {
-    try {
-      await GuestService.deleteGuestById(id);
-    } catch (err) {
-      setError('Ошибка при удалении гостя по ID');
-    }
-  };
+	const updateGuest = async (identifier: number | string, updatedData: Guest) => {
+		try {
+			await GuestService.updateGuestById(Number(identifier), updatedData);  // Преобразование в строку
+		} catch (err) {
+			setError('Ошибка при обновлении гостя');
+		}
+	};
 
-  const deleteGuestByIdGuest = async (id_guest: number) => {
-    try {
-      await GuestService.deleteGuestByIdGuest(id_guest);
-    } catch (err) {
-      setError('Ошибка при удалении гостя по ID гостя');
-    }
-  };
-
-  const updateGuest = async (full_name: string, updatedData: Guest) => {
-    try {
-      await GuestService.updateGuest(full_name, updatedData);
-    } catch (err) {
-      setError('Ошибка при обновлении гостя');
-    }
-  };
-
-  return { addGuest, deleteGuest, deleteGuestById, deleteGuestByIdGuest, updateGuest, error };
-};
-
-export const useGuestById = (id: number) => {
-  const [guest, setGuest] = useState<Guest | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchGuest = async () => {
-      try {
-        const data = await GuestService.getGuestById(id);
-        setGuest(data);
-      } catch (err) {
-        setError('Ошибка при загрузке гостя');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGuest();
-  }, [id]);
-
-  return { guest, loading, error };
-};
-
-export const useGuestByName = (full_name: string) => {
-  const [guest, setGuest] = useState<Guest | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchGuest = async () => {
-      try {
-        const data = await GuestService.getGuestByName(full_name);
-        setGuest(data);
-      } catch (err) {
-        setError('Ошибка при загрузке гостя');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGuest();
-  }, [full_name]);
-
-  return { guest, loading, error };
+  return { addGuest, deleteGuest, updateGuest, error };
 };
 
